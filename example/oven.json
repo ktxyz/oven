@@ -1,0 +1,15 @@
+{
+    "source_dir": "content",
+    "build_dir": "build",
+
+    "static_dir": "static",
+    "static_dir_css": "css",
+    "static_dir_img": "img",
+    "static_dir_js": "js",
+
+    "theme_dir": "theme",
+
+    "locales_dir": "locales",
+    "locales_main": "en",
+    "locales_langs": ["en", "pl"]
+}
