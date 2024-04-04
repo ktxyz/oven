@@ -1,11 +1,13 @@
 import json
 import logging
+import os
 
-from typing import List
 from pathlib import Path
+from typing import List, Dict
 
 from .config import Config
 from .trans import Translator
+from .theme import Theme
 
 
 class Content:
@@ -65,7 +67,7 @@ class Node:
         logging.info(f'[Node][{self.name}] loading content')
 
         for file in self.path.iterdir():
-            if file.is_file() and file.suffix == ".md":
+            if file.is_file() and file.suffix == '.md':
                 self.contents.append(Content(file))
 
     def __load_config(self) -> None:
@@ -79,17 +81,46 @@ class Node:
         except Exception as e:
             logging.error(f'[Node][{self.name}] error {e}')
 
-        self.output_name = self._raw_config.get("output_name", self.path.stem)
+        self.output_name = self._raw_config.get('output_name', self.path.stem)
+        self.template_name = self._raw_config.get('template_name', self.config.default_template_name)
+
+    def __get_build_path(self, lang: str) -> str:
+        if lang == self.config.locales_main:
+            return self.config.build_path / self.output_name
+        return self.config.build_path / f'_{lang}' / self.output_name
+
+    def __get_contents(self, lang: str) -> Dict:
+        contents = {}
+        for content in self.contents:
+            contents[content.name] = content.get_lang(lang)
+        return contents
+
+    def __get_context(self, lang: str) -> Dict:
+        context = self.context
+        context['lang'] = lang
+        return context
 
     def load_translations(self, trans: Translator) -> None:
         logging.info(f'[Node][{self.name}] loading translations')
 
         for lang in self.config.locales_langs:
             for content in self.contents:
-                content.add_translation(lang, trans.get_text(content.msg_id, lang))
+                content.add_lang(lang, trans.get_text(content.msg_id, lang))
 
     def get_contents(self) -> List[Content]:
         return self.contents
+
+    def output_content(self) -> None:
+        logging.info(f'[Node][{self.name}] outputting content')
+
+        theme = Theme()
+        for lang in self.config.locales_langs:
+            lang_build_path = self.__get_build_path(lang)
+            logging.info(f'[Node][{self.name}] output content in {lang} to {lang_build_path}')
+
+            os.makedirs(lang_build_path, exist_ok=True)
+            with open(lang_build_path / 'index.html', encoding='utf-8', mode='w') as f:
+                f.write(theme.render(self.template_name, self.__get_contents(lang), self.__get_context(lang)))
 
 
 class Site:
@@ -120,3 +151,9 @@ class Site:
         for node in self.nodes:
             for content in node.get_contents():
                 Translator().add_text(content.msg_id, content.default_data)
+
+    def output_content(self) -> None:
+        logging.info(f'[Site] outputting {len(self.nodes)} nodes')
+
+        for node in self.nodes:
+            node.output_content()

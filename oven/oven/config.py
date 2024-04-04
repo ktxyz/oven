@@ -33,6 +33,10 @@ class Config:
         self.locales_main = self._raw_json.get('locales_main', 'en')
         self.locales_langs = self._raw_json.get('locales_langs', ['en'])
 
+        self.markdown_extensions = self._raw_json.get('markdown_extensions', [])
+
+        self.default_template_name = self._raw_json.get('default_template_name', 'page.html')
+
         logging.info(f'[Config] loaded from {self.config_path}')
 
     def is_build_config(self) -> bool:

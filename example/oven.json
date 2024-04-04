@@ -8,6 +8,7 @@
     "static_dir_js": "js",
 
     "theme_dir": "theme",
+    "default_template_name": "page.html",
 
     "locales_dir": "locales",
     "locales_main": "en",

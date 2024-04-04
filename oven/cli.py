@@ -1,3 +1,4 @@
+import time
 import logging
 import argparse
 
@@ -20,11 +21,17 @@ def gather_trans(args):
 
 
 def run(config: Config) -> None:
+    _start_time = time.time()
+
     # initialize singletons with config
     _ = Translator(config)
     _ = Theme(config)
 
     site = Site(config)
+    if config.is_build_config():
+        site.output_content()
+
+    logging.info(f'[Oven Site Finished] {time.time() - _start_time:.3f}s')
 
 
 def main():

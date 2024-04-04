@@ -48,6 +48,7 @@ class Translator:
 
     def add_text(self, msgid: str, msgstr: str):
         self._gathered_texts += 1
+        default_entry = self.po_files[self.config.locales_main].find(msgid) or polib.POEntry(msgid=msgid, msgstr='')
         for lang in self.config.locales_langs:
             entry = self.po_files[lang].find(msgid)
             if not entry:
@@ -55,7 +56,7 @@ class Translator:
                 self.po_files[lang].append(entry)
             if lang == self.config.locales_main:
                 entry.msgstr = msgstr
-            else:
+            elif entry.msgstr != default_entry.msgstr:
                 entry.flags = ['fuzzy']
 
     def get_text(self, msgid: str, lang: str):
