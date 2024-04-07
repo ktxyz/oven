@@ -3,7 +3,10 @@ msgid ""
 msgstr ""
 
 msgid "index-body"
-msgstr "lorem ipsum alea act est"
+msgstr ""
+"lorem ipsum alea act est testing [url_test](https://lol_xd)\n"
+"\n"
+"Also let's try out [another_url](index)"
 
 msgid "header_id"
 msgstr "Header"

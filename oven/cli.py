@@ -6,6 +6,7 @@ from oven.config import Config, EConfigType
 from oven.trans import Translator
 from oven.theme import Theme
 from oven.site import Site
+from oven.urls import URLArchive
 
 
 def build_site(args):
@@ -26,6 +27,7 @@ def run(config: Config) -> None:
     # initialize singletons with config
     _ = Translator(config)
     _ = Theme(config)
+    _ = URLArchive(config)
 
     site = Site(config)
     if config.is_build_config():

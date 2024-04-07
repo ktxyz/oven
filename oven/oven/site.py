@@ -8,6 +8,7 @@ from typing import List, Dict
 from .config import Config
 from .trans import Translator
 from .theme import Theme
+from .urls import URLArchive
 
 
 class Content:
@@ -41,6 +42,7 @@ class Node:
         self.config = config
         self.path = path
         self.name = self.path.stem
+        self.output_name = self.name
 
         self.contents = []
         self.context = {}
@@ -122,6 +124,12 @@ class Node:
             with open(lang_build_path / 'index.html', encoding='utf-8', mode='w') as f:
                 f.write(theme.render(self.template_name, self.__get_contents(lang), self.__get_context(lang)))
 
+    def get_name(self) -> str:
+        return self.name
+
+    def get_output_name(self) -> str:
+        return self.output_name
+
 
 class Site:
     def __init__(self, config: Config) -> None:
@@ -139,9 +147,12 @@ class Site:
     def __gather_nodes(self) -> None:
         logging.info(f'[Site] Gathering nodes')
 
+        urls = URLArchive()
         for file in self.config.source_path.iterdir():
             if file.is_dir():
-                self.nodes.append(Node(file, self.config))
+                node = Node(file, self.config)
+                urls.add_url(node)
+                self.nodes.append(node)
 
     def __load_translations(self) -> None:
         for node in self.nodes:

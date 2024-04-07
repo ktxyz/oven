@@ -2,8 +2,10 @@
 msgid ""
 msgstr ""
 
+#, fuzzy
 msgid "index-body"
 msgstr "lorem ipsum lol act est"
 
+#, fuzzy
 msgid "header_id"
 msgstr "Naglowek"

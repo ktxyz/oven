@@ -12,5 +12,13 @@
 
     "locales_dir": "locales",
     "locales_main": "en",
-    "locales_langs": ["en", "pl"]
+    "locales_langs": ["en", "pl"],
+
+    "filters_dir": "filters",
+    "enabled_filters": ["gettext", "geturl"],
+
+    "extensions_dir": "extensions",
+    "enabled_extensions": ["oven_urls"],
+
+    "site_url": "https://localhost:8080"
 }
