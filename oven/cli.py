@@ -9,6 +9,7 @@ from oven.theme import Theme
 from oven.site import Site
 from oven.urls import URLArchive
 from oven.scripts import ScriptsManager, EOvenScriptExecTime
+from oven.errors import ErrorHolder
 
 
 def build_site(args):
@@ -30,6 +31,7 @@ def run(config: Config) -> None:
     _ = Translator(config)
     _ = Theme(config)
     _ = URLArchive(config)
+    _ = ErrorHolder()
 
     # initialize other classes
     scripts = ScriptsManager(config)
@@ -41,6 +43,10 @@ def run(config: Config) -> None:
     scripts.execute(EOvenScriptExecTime.FINISH_BUILD if config.is_build_config() else EOvenScriptExecTime.FINISH_GATHER)
 
     logging.info(f'[Oven Site Finished] {time.time() - _start_time:.3f}s')
+    errors = ErrorHolder().get_errors()
+    logging.info(f'[Oven Site Finished] encountered {len(errors)} errors')
+    for error in errors:
+        logging.error(error)
 
 
 def main():

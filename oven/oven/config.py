@@ -6,6 +6,8 @@ from argparse import Namespace
 
 from enum import Enum
 
+from .errors import ErrorHolder
+
 
 class EConfigType(Enum):
     UNSPECIFIED = 0
@@ -27,7 +29,7 @@ class Config:
             with open(self.config_path, encoding='utf-8', mode='r') as f:
                 self._raw_json = json.load(f)
         except Exception as e:
-            logging.error(f'[Config] error:{e}')
+            ErrorHolder().add_error(e)
 
         self.site_url = self._raw_json.get('site_url', 'https://localhost:80')
         self.site_timezone = self._raw_json.get('site_timezone', 'Europe/Warsaw')

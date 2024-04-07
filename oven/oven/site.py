@@ -9,6 +9,7 @@ from .config import Config
 from .trans import Translator
 from .theme import Theme
 from .urls import URLArchive
+from .errors import ErrorHolder
 
 
 class Content:
@@ -63,7 +64,7 @@ class Node:
         except FileNotFoundError:
             pass
         except Exception as e:
-            logging.error(f'[Node][{self.name}] error {e}')
+            ErrorHolder().add_error(e)
 
     def __load_content(self) -> None:
         logging.info(f'[Node][{self.name}] loading content')
@@ -81,7 +82,7 @@ class Node:
         except FileNotFoundError:
             pass
         except Exception as e:
-            logging.error(f'[Node][{self.name}] error {e}')
+            ErrorHolder().add_error(e)
 
         self.output_name = self._raw_config.get('output_name', self.path.stem)
         self.template_name = self._raw_config.get('template_name', self.config.default_template_name)
