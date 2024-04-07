@@ -2,6 +2,8 @@
     "source_dir": "content",
     "build_dir": "build",
 
+    "clean_before_build": true,
+
     "static_dir": "static",
     "static_dir_css": "css",
     "static_dir_img": "img",
@@ -20,5 +22,35 @@
     "extensions_dir": "extensions",
     "enabled_extensions": ["oven_urls"],
 
+    "scripts_dir": "scripts",
+    "enabled_scripts": ["robots.txt", "sitemap.xml", "clean"],
+    "scripts_config": {
+        "robots.txt": {
+            "output_file": "robots.txt"
+        },
+        "sitemap.xml": {
+            "ignore_paths": [
+                "_archive"
+            ]
+        },
+        "clean": {
+            "ignore_paths": [
+                "_archive"
+            ]
+        },
+        "archive": {
+            "ignore_paths": [
+                "_archive"
+            ],
+
+            "generate_zip": true,
+            "zip_dir": "_archive",
+
+            "generate_raw": true,
+            "raw_dir": "_archive"
+        }
+    },
+
+    "site_timezone": "Europe/Warsaw",
     "site_url": "https://localhost:8080"
 }

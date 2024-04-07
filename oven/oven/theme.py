@@ -1,24 +1,15 @@
 import logging
 from pathlib import Path
-from importlib import util as importlib_util
-from types import ModuleType
 from typing import Dict, Optional
 
 from markdown import Markdown
 from jinja2 import Environment, FileSystemLoader
 
+from .utils import load_module
 from .config import Config
 
 INTERNAL_FILTERS_PATH = Path(__file__).parent / 'internal_filters'
 INTERNAL_EXTENSIONS_PATH = Path(__file__).parent / 'internal_extensions'
-INTERNAL_SCRIPTS_PATH = Path(__file__).parent / 'internal_scripts'
-
-
-def load_module(name: str, path: Path) -> Optional[ModuleType]:
-    spec = importlib_util.spec_from_file_location(name, path)
-    filter_module = importlib_util.module_from_spec(spec)
-    spec.loader.exec_module(filter_module)
-    return filter_module
 
 
 class Theme:
