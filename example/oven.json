@@ -4,10 +4,7 @@
 
     "clean_before_build": true,
 
-    "static_dir": "static",
-    "static_dir_css": "css",
-    "static_dir_img": "img",
-    "static_dir_js": "js",
+    "static_dir": "_static",
 
     "theme_dir": "theme",
     "default_template_name": "page.html",
@@ -23,7 +20,7 @@
     "enabled_extensions": ["oven_urls"],
 
     "scripts_dir": "scripts",
-    "enabled_scripts": ["robots.txt", "sitemap.xml", "clean"],
+    "enabled_scripts": ["robots.txt", "sitemap.xml", "clean", "assets"],
     "scripts_config": {
         "robots.txt": {
             "output_file": "robots.txt"
@@ -48,6 +45,19 @@
 
             "generate_raw": true,
             "raw_dir": "_archive"
+        },
+        "assets": {
+            "ignore_paths": [
+                "build"
+            ],
+            "types": [
+                ".css",
+                ".js",
+                ".png",
+                ".otf",
+                ".pdf",
+                ".svg"
+            ]
         }
     },
 

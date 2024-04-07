@@ -1,6 +1,7 @@
 import json
 import logging
 from pathlib import Path
+from typing import Optional
 
 from argparse import Namespace
 
@@ -18,8 +19,15 @@ class EConfigType(Enum):
 
 class Config:
     CONFIG_FILE = 'oven.json'
+    _instance = None
 
-    def __init__(self, args: Namespace, config_type: EConfigType = EConfigType.UNSPECIFIED) -> None:
+    def __new__(cls, args: Optional[Namespace] = None, config_type: Optional[EConfigType] = None):
+        if cls._instance is None:
+            cls._instance = super(Config, cls).__new__(cls)
+            cls._instance.__initialize(args, config_type)
+        return cls._instance
+
+    def __initialize(self, args: Namespace, config_type: EConfigType) -> None:
         self.root_path = Path.cwd()
         self.config_path = self.root_path / Config.CONFIG_FILE
 
@@ -36,6 +44,9 @@ class Config:
 
         self.source_path = self.root_path / self._raw_json.get('source_dir', 'content')
         self.build_path = self.root_path / self._raw_json.get('build_dir', 'build')
+
+        self.assets_dir = self._raw_json.get('static_dir', 'static')
+        self.assets_path = self.build_path / self.assets_dir
 
         self.theme_path = self.root_path / self._raw_json.get('theme_dir', 'theme')
         self.locales_path = self.root_path / self._raw_json.get('locales_dir', 'locales')

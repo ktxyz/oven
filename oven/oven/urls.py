@@ -31,4 +31,4 @@ class URLArchive:
             return self.urls[lang][name]
         else:
             logging.error(f'[URLArchiver] could not find url for {name} for lang {lang}')
-            return self.config.site_url + '/' + 'bad_url'
+            return self.config.site_url + '/' + '404.html'
