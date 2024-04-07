@@ -2,8 +2,6 @@
     "source_dir": "content",
     "build_dir": "build",
 
-    "clean_before_build": true,
-
     "static_dir": "_static",
 
     "theme_dir": "theme",
@@ -17,7 +15,7 @@
     "enabled_filters": ["gettext", "geturl"],
 
     "extensions_dir": "extensions",
-    "enabled_extensions": ["oven_urls"],
+    "enabled_extensions": ["oven_urls", "fenced_code"],
 
     "scripts_dir": "scripts",
     "enabled_scripts": ["robots.txt", "sitemap.xml", "clean", "assets"],

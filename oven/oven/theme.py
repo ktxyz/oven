@@ -1,6 +1,6 @@
 import logging
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict, Optional, List
 
 from markdown import Markdown
 from jinja2 import Environment, FileSystemLoader
@@ -60,6 +60,7 @@ class Theme:
         logging.info(f'[Theme] Loading extensions from {path}')
 
         extensions_count = 0
+        left_over_extensions = self.config.enabled_extensions
         for file in path.iterdir():
             if file.is_file() and file.suffix == '.py':
                 module = load_module('oven_extension', file)
@@ -69,6 +70,13 @@ class Theme:
                         logging.info(f'[Theme] loaded extension: {module.EXTENSION_NAME}')
                         extensions_count += 1
                         self.extensions += [module.EXTENSION_CLASS()]
+                        left_over_extensions.remove(module.EXTENSION_NAME)
+
+        for extension in left_over_extensions:
+            logging.info(f'[Theme] loaded extension: {extension}')
+            self.extensions += [extension]
+            extensions_count += 1
+
         logging.info(f'[Theme] loaded {extensions_count} extensions')
 
     def __render_dummy_templates(self) -> None:
@@ -76,13 +84,19 @@ class Theme:
             template = self.env.get_template(template_name)
             template.render({'config': self.config, 'lang': self.config.locales_main})
 
-    def render(self, template_name: str, contents: Optional[dict] = None, context: Optional[Dict] = None) -> str:
+    def render(self, template_name: str, contents: Optional[dict] = None, context: Optional[Dict] = None,
+               exclude_pre_render: Optional[List[str]] = None) -> str:
+        if not exclude_pre_render:
+            exclude_pre_render = []
         template = self.env.get_template(template_name)
 
         if contents is None:
             contents = {}
         for key, text in contents.items():
-            content_template = self.env.from_string(self.markdown.convert(text))
-            contents[key] = content_template.render({'lang': context['lang']})
+            if key not in exclude_pre_render:
+                content_template = self.env.from_string(self.markdown.convert(text))
+                contents[key] = content_template.render({'lang': context['lang']})
+            else:
+                contents[key] = self.markdown.convert(text)
 
         return template.render({**contents, **{**context, 'config': self.config}})

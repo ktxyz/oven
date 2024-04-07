@@ -1,0 +1,11 @@
+{% extends 'page.html' %}
+
+{% block content %}
+{{ top | safe }}
+{{ filters_code | safe }}
+{{ after_filters | safe }}
+{{ extensions_code | safe }}
+{{ after_extensions | safe }}
+{{ scripts_code | safe }}
+{{ after_scripts | safe }}
+{% endblock content %}

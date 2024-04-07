@@ -1,8 +1,1 @@
 {% extends 'base.html'%}
-
-{% block content %}
-{{ body | safe }}
-{% for lang in config.locales_langs %}
-{{ lang }}
-{% endfor %}
-{% endblock content %}

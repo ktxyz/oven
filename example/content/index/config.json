@@ -1,3 +1,8 @@
 {
-  "template_name": "page.html"
+  "template_name": "custom_index.html",
+  "exclude_pre_render": [
+    "filters_code",
+    "extensions_code",
+    "scripts_code"
+  ]
 }

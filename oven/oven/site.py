@@ -86,8 +86,9 @@ class Node:
 
         self.output_name = self._raw_config.get('output_name', self.path.stem)
         self.template_name = self._raw_config.get('template_name', self.config.default_template_name)
+        self.exclude_pre_render = self._raw_config.get('exclude_pre_render', [])
 
-    def __get_build_path(self, lang: str) -> str:
+    def __get_build_path(self, lang: str) -> Path:
         if lang == self.config.locales_main:
             return self.config.build_path / self.output_name
         return self.config.build_path / f'_{lang}' / self.output_name
@@ -123,7 +124,8 @@ class Node:
 
             os.makedirs(lang_build_path, exist_ok=True)
             with open(lang_build_path / 'index.html', encoding='utf-8', mode='w') as f:
-                f.write(theme.render(self.template_name, self.__get_contents(lang), self.__get_context(lang)))
+                f.write(theme.render(self.template_name, self.__get_contents(lang), self.__get_context(lang),
+                                     self.exclude_pre_render))
 
     def get_name(self) -> str:
         return self.name
