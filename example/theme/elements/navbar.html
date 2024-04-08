@@ -1,0 +1,16 @@
+<nav>
+    <ul>
+        <li><a href="https://github.com/ktxyz/oven">Github</a></li>
+        <li>
+            <ul class="lang-nav">
+                {% for available_lang in config.locales_langs %}
+                    {% if available_lang == lang %}
+                        <li>{{ available_lang | gettext(available_lang, lang) }}</li>
+                    {% else %}
+                        <li><a href="{{ this | geturl(available_lang) }}">{{ available_lang | gettext(available_lang, lang) }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+</nav>

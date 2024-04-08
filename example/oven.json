@@ -59,6 +59,11 @@
         }
     },
 
+    "site_context": {
+        "site_title": "oven - yet another static site generator with markdown",
+        "site_footer": "created with <a href='https://github.com/ktxyz/oven'>oven</a> static site generator."
+    },
+
     "site_timezone": "Europe/Warsaw",
     "site_url": "https://localhost:8080"
 }

@@ -82,7 +82,8 @@ class Theme:
     def __render_dummy_templates(self) -> None:
         for template_name in self.env.list_templates():
             template = self.env.get_template(template_name)
-            template.render({'config': self.config, 'lang': self.config.locales_main})
+            template.render({**self.config.site_context, 'config': self.config, 'lang': self.config.locales_main,
+                             'this': ''})
 
     def render(self, template_name: str, contents: Optional[dict] = None, context: Optional[Dict] = None,
                exclude_pre_render: Optional[List[str]] = None) -> str:
@@ -99,4 +100,4 @@ class Theme:
             else:
                 contents[key] = self.markdown.convert(text)
 
-        return template.render({**contents, **{**context, 'config': self.config}})
+        return template.render({**contents, **{**self.config.site_context, **context, 'config': self.config}})

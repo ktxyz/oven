@@ -1,7 +1,9 @@
 import time
-import shutil
 import logging
 import argparse
+
+import http.server
+import socketserver
 
 from oven.config import Config, EConfigType
 from oven.trans import Translator
@@ -24,13 +26,30 @@ def gather_trans(args):
     run(config)
 
 
+def serve_site(args):
+    config = Config(args, EConfigType.SERVE)
+
+    class Handler(http.server.SimpleHTTPRequestHandler):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, directory=config.build_path, **kwargs)
+
+    with socketserver.TCPServer(("", 80), Handler) as httpd:
+        logging.info("[Oven Site Server] serving at http://localhost:80")
+        try:
+            httpd.allow_reuse_port = True
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            pass
+        httpd.server_close()
+
+
 def run(config: Config) -> None:
     _start_time = time.time()
 
     # initialize singletons with config
+    _ = URLArchive(config)
     _ = Translator(config)
     _ = Theme(config)
-    _ = URLArchive(config)
     _ = ErrorHolder()
 
     # initialize other classes
@@ -66,6 +85,10 @@ def main():
     # Gather
     gather_parser = subparsers.add_parser('gather', help='`Gather translations')
     gather_parser.set_defaults(func=gather_trans)
+
+    # Server
+    server_parser = subparsers.add_parser('serve', help='Serve static site locally')
+    server_parser.set_defaults(func=serve_site)
 
     args = parser.parse_args()
     if hasattr(args, 'func'):

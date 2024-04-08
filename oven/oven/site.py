@@ -51,9 +51,9 @@ class Node:
 
         logging.info(f'[Node][{self.name}] detected at {self.path}')
         self.__load_content()
+        self.__load_context()
         if self.config.is_build_config():
             self.__load_config()
-            self.__load_context()
 
     def __load_context(self):
         logging.info(f'[Node][{self.name}] loading context')
@@ -65,6 +65,8 @@ class Node:
             pass
         except Exception as e:
             ErrorHolder().add_error(e)
+
+        self.context['this'] = self.name
 
     def __load_content(self) -> None:
         logging.info(f'[Node][{self.name}] loading content')
@@ -110,6 +112,8 @@ class Node:
         for lang in self.config.locales_langs:
             for content in self.contents:
                 content.add_lang(lang, trans.get_text(content.msg_id, lang))
+            for context_key, context_item in self.context.items():
+                self.context[context_key] = trans.get_text(f'{self.name}-{context_key}', lang)
 
     def get_contents(self) -> List[Content]:
         return self.contents
@@ -165,6 +169,10 @@ class Site:
         for node in self.nodes:
             for content in node.get_contents():
                 Translator().add_text(content.msg_id, content.default_data)
+            for context_key, context_item in node.context.items():
+                Translator().add_text(f'{node.name}-{context_key}', context_item)
+        for context_key, context_item in self.config.site_context.items():
+            Translator().add_text(context_key, context_item)
 
     def output_content(self) -> None:
         logging.info(f'[Site] outputting {len(self.nodes)} nodes')

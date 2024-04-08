@@ -6,27 +6,39 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>{{ title }}</title>
-
-    <link rel="stylesheet" href="{{ 'style_css__asset' | geturl }}">
+    <title>{{ 'site_title' | gettext(site_title, lang) }}</title>
 
     {% block css_includes %}
+    <link rel="stylesheet" href="{{ 'style_css__asset' | geturl }}">
     {% endblock css_includes %}
 
     {% block css_inline %}
     {% endblock css_inline %}
 </head>
 <body>
-    {% block header %}
-    {% endblock header %}
-    {% block content %}
-    {% endblock content%}
-    {% block footer %}
-    {% endblock footer %}
+    <main>
+        <header>
+        {% block header %}
+            {% include 'elements/navbar.html' %}
+        {% endblock header %}
+        </header>
+        <section class="content">
+            {% block content %}
+            {% endblock content%}
+        </section>
+        <footer>
+        {% block footer %}
+            {% include 'elements/footer.html' %}
+        {% endblock footer %}
+        </footer>
+    </main>
 
     {% block js_includes %}
     {% endblock js_includes %}
     {% block js_inline %}
+    <script>
+
+    </script>
     {% endblock js_inline %}
 </body>
 </html>

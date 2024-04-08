@@ -14,7 +14,9 @@ class EConfigType(Enum):
     UNSPECIFIED = 0
     GATHER = 1
     BUILD = 2
-    WATCH = 3
+    SERVE = 3
+    # TODO
+    WATCH = 4
 
 
 class Config:
@@ -73,6 +75,7 @@ class Config:
         self.scripts_config = self._raw_json.get('scripts_config', {})
 
         self.default_template_name = self._raw_json.get('default_template_name', 'page.html')
+        self.site_context = self._raw_json.get('site_context', {})
 
         logging.info(f'[Config] loaded from {self.config_path}')
 
