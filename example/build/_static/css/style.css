@@ -1,0 +1,131 @@
+html, body {
+    overflow-x: hidden;
+
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: calc(min(900px, 90vw));
+    margin: 0 auto;
+
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    padding-top: .3rem;
+    padding-bottom: 2rem;
+}
+
+main {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    grid-template-rows: 3rem 1fr 2rem;
+    grid-column-gap: 0;
+    grid-row-gap: 0;
+}
+
+.content {
+    min-height: 85vh;
+}
+
+nav {
+    display: flex;
+    justify-content: right;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: right;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 0 1rem
+}
+
+nav ul li a {
+    color: black;
+    font-weight: bold;
+}
+
+nav ul li ul {
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li ul li {
+    display: inline;
+    margin-right: 2px;
+    margin-left: 4px;
+}
+
+nav ul li ul li:last-child:after {
+    content: "";
+}
+
+nav ul li ul li:after {
+    content: " /";
+}
+
+h1, h2, h3, h4, h5, h6, p, a, li {
+    font-family: sans-serif, serif, monospace;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: .5em;
+    margin-top: 1em;
+}
+
+p {
+    max-width: calc(min(95vw, 750px));
+}
+
+.content > h1 {
+    font-size: 3rem;
+    margin-top: .5em;
+}
+
+footer {
+    width: 100%;
+    text-align: center;
+}
+
+footer p {
+    font-weight: bold;
+}
+
+/* Code styling from https://css-tricks.com/styling-code-in-and-out-of-blocks/*/
+code {
+    font-family: monospace;
+    font-size: inherit;
+}
+
+
+pre code {
+    display: block;
+    background: none;
+    white-space: pre;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: scroll;
+    max-width: 100%;
+    min-width: 100px;
+    padding: 0;
+}
+
+pre,
+p > code,
+li > code,
+dd > code,
+td > code {
+    background: #ffeff0;
+    word-wrap: break-word;
+    box-decoration-break: clone;
+    padding: .1rem .3rem .2rem;
+    border-radius: .2rem;
+}
+
+pre {
+    padding: .4rem .3rem .6rem;
+}

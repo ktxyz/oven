@@ -1,0 +1,18 @@
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+	<url>
+		<loc>https://localhost:8080/_static/css/style.css</loc>
+		<lastmod>2024-04-08 17:55:46.390575+02:00</lastmod>
+	</url>
+	<url>
+		<loc>https://localhost:8080/index/index.html</loc>
+		<lastmod>2024-04-08 17:59:01.410572+02:00</lastmod>
+	</url>
+	<url>
+		<loc>https://localhost:8080/robots.txt</loc>
+		<lastmod>2024-04-08 17:59:01.413192+02:00</lastmod>
+	</url>
+	<url>
+		<loc>https://localhost:8080/_pl/index/index.html</loc>
+		<lastmod>2024-04-08 17:59:01.411540+02:00</lastmod>
+	</url>
+</urlset>
