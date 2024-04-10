@@ -22,9 +22,9 @@ class URLArchive:
     def add_url(self, node) -> None:
         for lang in self.config.locales_langs:
             if lang == self.config.locales_main:
-                self.urls[lang][node.get_name()] = f'/{node.get_output_name()}'
+                self.urls[lang][node.get_name()] = f'{self.config.site_root}/{node.get_output_name()}'
             else:
-                self.urls[lang][node.get_name()] = f'/_{lang}/{node.get_output_name()}'
+                self.urls[lang][node.get_name()] = f'{self.config.site_root}/_{lang}/{node.get_output_name()}'
 
     def get_url(self, name: str, lang: str) -> str:
         if self.urls[lang].get(name, None):

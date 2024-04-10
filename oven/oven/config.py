@@ -76,6 +76,7 @@ class Config:
 
         self.default_template_name = self._raw_json.get('default_template_name', 'page.html')
         self.site_context = self._raw_json.get('site_context', {})
+        self.site_root = self._raw_json.get('site_root', '')
 
         logging.info(f'[Config] loaded from {self.config_path}')
 

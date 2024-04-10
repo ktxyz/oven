@@ -15,6 +15,6 @@ def custom_filter(name: str, lang: Optional[str] = 'en') -> str:
         name = name.replace('__asset', '')
         extension = name.split('_')[-1]
         name = name.replace('_' + extension, '')
-        return f'/{Config().assets_dir}/{extension}/{name}.{extension}'
+        return f'{Config().site_root}/{Config().assets_dir}/{extension}/{name}.{extension}'
 
     return URLArchive().get_url(name, lang)

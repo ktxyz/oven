@@ -18,7 +18,7 @@
     "enabled_extensions": ["oven_urls", "fenced_code"],
 
     "scripts_dir": "scripts",
-    "enabled_scripts": ["robots.txt", "sitemap.xml", "clean", "assets"],
+    "enabled_scripts": ["robots.txt", "sitemap.xml", "clean", "assets", "make_index"],
     "scripts_config": {
         "robots.txt": {
             "output_file": "robots.txt"
@@ -56,6 +56,9 @@
                 ".pdf",
                 ".svg"
             ]
+        },
+        "make_index": {
+            "output_index_name": "index"
         }
     },
 
@@ -65,5 +68,6 @@
     },
 
     "site_timezone": "Europe/Warsaw",
-    "site_url": "https://localhost:8080"
+    "site_url": "https://ktxyz.github.io/oven",
+    "site_root": "/oven"
 }
