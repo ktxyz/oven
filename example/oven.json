@@ -68,6 +68,6 @@
     },
 
     "site_timezone": "Europe/Warsaw",
-    "site_url": "https://ktxyz.github.io/oven",
-    "site_root": "/oven"
+    "site_url": "https://oven.tokarski.xyz",
+    "site_root": ""
 }

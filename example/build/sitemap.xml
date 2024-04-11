@@ -1,18 +1,18 @@
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
-		<loc>https://ktxyz.github.io/oven/_static/css/style.css</loc>
+		<loc>https://oven.tokarski.xyz/_static/css/style.css</loc>
 		<lastmod>2024-04-08 17:55:46.390575+02:00</lastmod>
 	</url>
 	<url>
-		<loc>https://ktxyz.github.io/oven/index/index.html</loc>
-		<lastmod>2024-04-10 13:44:33.126159+02:00</lastmod>
+		<loc>https://oven.tokarski.xyz/index/index.html</loc>
+		<lastmod>2024-04-11 09:26:47.217978+02:00</lastmod>
 	</url>
 	<url>
-		<loc>https://ktxyz.github.io/oven/robots.txt</loc>
-		<lastmod>2024-04-10 13:44:33.128006+02:00</lastmod>
+		<loc>https://oven.tokarski.xyz/robots.txt</loc>
+		<lastmod>2024-04-11 09:26:47.220404+02:00</lastmod>
 	</url>
 	<url>
-		<loc>https://ktxyz.github.io/oven/_pl/index/index.html</loc>
-		<lastmod>2024-04-10 13:44:33.127216+02:00</lastmod>
+		<loc>https://oven.tokarski.xyz/_pl/index/index.html</loc>
+		<lastmod>2024-04-11 09:26:47.218949+02:00</lastmod>
 	</url>
 </urlset>
