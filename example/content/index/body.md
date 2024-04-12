@@ -11,9 +11,9 @@ I hate new-age web. Tons of JS, CSS frameworks and bloat bloated by bloated bloa
 * Generation from .md files using Jinja2 templating
 * Support for multi-lang site with .po files
 * Support for custom:
-  * Jinja filters
-  * Markdown extension
-  * Pre/Post build python scripts
+    * Jinja filters
+    * Markdown extension
+    * Pre/Post build python scripts
 * No bloat, Markdown transforms into HTML
 
 ## Usage
