@@ -1,6 +1,6 @@
 import logging
 
-from oven.config import Config
+from .config import Config
 
 
 class URLArchive:

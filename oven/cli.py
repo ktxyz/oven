@@ -5,13 +5,13 @@ import argparse
 import http.server
 import socketserver
 
-from oven.config import Config, EConfigType
-from oven.trans import Translator
-from oven.theme import Theme
-from oven.site import Site
-from oven.urls import URLArchive
-from oven.scripts import ScriptsManager, EOvenScriptExecTime
-from oven.errors import ErrorHolder
+from .oven.config import Config, EConfigType
+from .oven.trans import Translator
+from .oven.theme import Theme
+from .oven.site import Site
+from .oven.urls import URLArchive
+from .oven.scripts import ScriptsManager, EOvenScriptExecTime
+from .oven.errors import ErrorHolder
 
 
 def build_site(args):

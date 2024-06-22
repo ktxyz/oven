@@ -1,0 +1,4 @@
+include oven/*.json
+include oven/templates/*.html
+include oven/filters/*
+

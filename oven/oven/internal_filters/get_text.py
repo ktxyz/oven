@@ -1,6 +1,6 @@
 from typing import Optional
 
-from oven.trans import Translator
+from oven.oven.trans import Translator
 
 
 FILTER_NAME = 'gettext'

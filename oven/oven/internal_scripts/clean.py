@@ -5,8 +5,8 @@ import logging
 from typing import List
 from pathlib import Path
 
-from oven.utils import EOvenScriptExecTime
-from oven.config import Config
+from oven.oven.utils import EOvenScriptExecTime
+from oven.oven.config import Config
 
 SCRIPT_NAME = 'clean'
 SCRIPT_EXEC_TIME = EOvenScriptExecTime.START_BUILD

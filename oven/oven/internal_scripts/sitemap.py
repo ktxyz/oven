@@ -6,8 +6,8 @@ from xml.etree import ElementTree as ET
 
 import pytz
 
-from oven.utils import EOvenScriptExecTime
-from oven.config import Config
+from oven.oven.utils import EOvenScriptExecTime
+from oven.oven.config import Config
 
 SCRIPT_NAME = 'sitemap.xml'
 SCRIPT_EXEC_TIME = EOvenScriptExecTime.FINISH_BUILD

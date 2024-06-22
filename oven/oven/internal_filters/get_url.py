@@ -1,7 +1,7 @@
 from typing import Optional
 
-from oven.urls import URLArchive
-from oven.config import Config
+from oven.oven.urls import URLArchive
+from oven.oven.config import Config
 
 FILTER_NAME = 'geturl'
 

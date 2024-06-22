@@ -2,14 +2,16 @@ import logging
 from pathlib import Path
 from typing import Dict, Optional, List
 
+from importlib import resources
+
 from markdown import Markdown
 from jinja2 import Environment, FileSystemLoader
 
 from .utils import load_module
 from .config import Config
 
-INTERNAL_FILTERS_PATH = Path(__file__).parent / 'internal_filters'
-INTERNAL_EXTENSIONS_PATH = Path(__file__).parent / 'internal_extensions'
+INTERNAL_FILTERS_PACKAGE = 'oven.oven.internal_filters'
+INTERNAL_EXTENSIONS_PACKAGE = 'oven.oven.internal_extensions'
 
 
 class Theme:
@@ -26,51 +28,59 @@ class Theme:
         self.env = Environment(loader=FileSystemLoader(self.config.theme_path), autoescape=True)
         self.extensions = []
 
-        self.__load_filters(INTERNAL_FILTERS_PATH)
+        self.__load_filters(INTERNAL_FILTERS_PACKAGE, True)
         self.__load_filters(self.config.filters_path)
 
         if self.config.is_build_config():
-            self.__load_extensions(INTERNAL_EXTENSIONS_PATH)
+            self.__load_extensions(INTERNAL_EXTENSIONS_PACKAGE, True)
             self.__load_extensions(self.config.extensions_path)
             self.markdown = Markdown(extensions=self.extensions)
 
         if self.config.is_gather_config():
             self.__render_dummy_templates()
 
-    def __load_filters(self, path: Path) -> None:
-        if not path.exists():
+    # TODO:
+    #   Refactor this so it doesn't 
+    #   duplicate with scripts loading
+    def __load_modules(self, path: Path, name: str, internal: bool):
+        modules = []
+        for script_name in path.iterdir() if not internal else resources.contents(path):
+            if script_name.endswith('.py'):
+                if internal:
+                    with resources.path(path, script_name) as script_path:
+                        modules.append(load_module(name, script_path))
+                else:
+                    modules.append(load_module(name, script_name))
+        return modules
+
+    def __load_filters(self, path: Path, internal: bool = False) -> None:
+        if not (internal or path.exists()):
             return
-        logging.info(f'[Theme] Loading filters from {path}')
+        logging.info(f'[Theme] Loading filters from {path if not internal else 'INTERNAL'}')
 
         filter_count = 0
-        for file in path.iterdir():
-            if file.is_file() and file.suffix == '.py':
-                module = load_module('oven_filter', file)
-
-                if hasattr(module, 'FILTER_NAME') and hasattr(module, 'custom_filter'):
-                    if not self.config.enabled_filters or module.FILTER_NAME in self.config.enabled_filters:
-                        logging.info(f'[Theme] loaded filter: {module.FILTER_NAME}')
-                        filter_count += 1
-                        self.env.filters[module.FILTER_NAME] = module.custom_filter
+        for module in self.__load_modules(path, 'oven_filter', internal):
+            if hasattr(module, 'FILTER_NAME') and hasattr(module, 'custom_filter'):
+                if not self.config.enabled_filters or module.FILTER_NAME in self.config.enabled_filters:
+                    logging.info(f'[Theme] loaded filter: {module.FILTER_NAME}')
+                    filter_count += 1
+                    self.env.filters[module.FILTER_NAME] = module.custom_filter
         logging.info(f'[Theme] loaded {filter_count} filters')
 
-    def __load_extensions(self, path: Path) -> None:
-        if not path.exists():
+    def __load_extensions(self, path: Path, internal: bool = False) -> None:
+        if not (internal or path.exists()):
             return
         logging.info(f'[Theme] Loading extensions from {path}')
 
         extensions_count = 0
         left_over_extensions = self.config.enabled_extensions
-        for file in path.iterdir():
-            if file.is_file() and file.suffix == '.py':
-                module = load_module('oven_extension', file)
-
-                if hasattr(module, 'EXTENSION_NAME') and hasattr(module, 'EXTENSION_CLASS'):
-                    if not self.config.enabled_extensions or module.EXTENSION_NAME in self.config.enabled_extensions:
-                        logging.info(f'[Theme] loaded extension: {module.EXTENSION_NAME}')
-                        extensions_count += 1
-                        self.extensions += [module.EXTENSION_CLASS()]
-                        left_over_extensions.remove(module.EXTENSION_NAME)
+        for module in self.__load_modules(path, 'oven_extension', internal):
+            if hasattr(module, 'EXTENSION_NAME') and hasattr(module, 'EXTENSION_CLASS'):
+                if not self.config.enabled_extensions or module.EXTENSION_NAME in self.config.enabled_extensions:
+                    logging.info(f'[Theme] loaded extension: {module.EXTENSION_NAME}')
+                    extensions_count += 1
+                    self.extensions += [module.EXTENSION_CLASS()]
+                    left_over_extensions.remove(module.EXTENSION_NAME)
 
         for extension in left_over_extensions:
             logging.info(f'[Theme] loaded extension: {extension}')

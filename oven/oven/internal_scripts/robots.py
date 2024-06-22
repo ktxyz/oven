@@ -1,7 +1,7 @@
 import logging
 
-from oven.utils import EOvenScriptExecTime
-from oven.config import Config
+from oven.oven.utils import EOvenScriptExecTime
+from oven.oven.config import Config
 
 SCRIPT_NAME = 'robots.txt'
 SCRIPT_EXEC_TIME = EOvenScriptExecTime.FINISH_BUILD
