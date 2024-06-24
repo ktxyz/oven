@@ -119,6 +119,8 @@ class Node:
         return self.contents
 
     def output_content(self) -> None:
+        Config().set_active_node(self.name)
+
         logging.info(f'[Node][{self.name}] outputting content')
 
         theme = Theme()
@@ -130,6 +132,8 @@ class Node:
             with open(lang_build_path / 'index.html', encoding='utf-8', mode='w') as f:
                 f.write(theme.render(self.template_name, self.__get_contents(lang), self.__get_context(lang),
                                      self.exclude_pre_render))
+        
+        Config().set_active_node(None)
 
     def get_name(self) -> str:
         return self.name

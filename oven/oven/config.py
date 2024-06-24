@@ -18,7 +18,6 @@ class EConfigType(Enum):
     # TODO
     WATCH = 4
 
-
 class Config:
     CONFIG_FILE = 'oven.json'
     _instance = None
@@ -30,6 +29,8 @@ class Config:
         return cls._instance
 
     def __initialize(self, args: Namespace, config_type: EConfigType) -> None:
+        self._active_node = None
+
         self.root_path = Path.cwd()
         self.config_path = self.root_path / Config.CONFIG_FILE
 
@@ -79,6 +80,12 @@ class Config:
         self.site_root = self._raw_json.get('site_root', '')
 
         logging.info(f'[Config] loaded from {self.config_path}')
+
+    def set_active_node(self, node_name):
+        self._active_node = node_name
+
+    def get_active_node(self):
+        return self._active_node
 
     def is_build_config(self) -> bool:
         return self.config_type == EConfigType.BUILD

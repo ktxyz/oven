@@ -61,6 +61,6 @@ class Translator:
 
     def get_text(self, msgid: str, lang: str):
         entry = self.po_files[lang].find(msgid)
-        if not entry or not entry.msgstr:
-            return ''
-        return entry.msgstr
+        if not entry:
+            entry = self.po_files[lang].find(f'{Config().get_active_node()}-msgid')
+        return entry.msgstr if entry else ''
