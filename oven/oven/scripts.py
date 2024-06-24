@@ -40,7 +40,7 @@ class ScriptsManager:
 
     def __load_modules(self, path: Path, internal: bool = False):
         modules = []
-        for script_name in path.iterdir() if not internal else resources.contents(INTERNAL_SCRIPTS_PACKAGE):
+        for script_name in map(str, path.iterdir()) if not internal else resources.contents(INTERNAL_SCRIPTS_PACKAGE):
             if script_name.endswith('.py'):
                 if internal:
                     with resources.path(INTERNAL_SCRIPTS_PACKAGE, script_name) as script_path:

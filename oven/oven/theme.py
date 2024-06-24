@@ -44,7 +44,7 @@ class Theme:
     #   duplicate with scripts loading
     def __load_modules(self, path: Path, name: str, internal: bool):
         modules = []
-        for script_name in path.iterdir() if not internal else resources.contents(path):
+        for script_name in map(str, path.iterdir()) if not internal else resources.contents(path):
             if script_name.endswith('.py'):
                 if internal:
                     with resources.path(path, script_name) as script_path:
