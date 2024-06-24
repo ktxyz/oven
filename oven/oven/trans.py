@@ -54,7 +54,7 @@ class Translator:
             if not entry:
                 entry = polib.POEntry(msgid=msgid, msgstr=msgstr)
                 self.po_files[lang].append(entry)
-            if lang == self.config.locales_main:
+            if msgstr != '' and lang == self.config.locales_main:
                 entry.msgstr = msgstr
             elif entry.msgstr != default_entry.msgstr:
                 entry.flags = ['fuzzy']
